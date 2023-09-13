@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/tonalfitness/gorm-opentelemetry/metrics"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 	"go.opentelemetry.io/otel/trace"
 	"gorm.io/gorm"
-
-	"gorm.io/plugin/opentelemetry/metrics"
 )
 
 var dbRowsAffected = attribute.Key("db.rows_affected")
