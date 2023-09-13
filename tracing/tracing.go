@@ -24,6 +24,7 @@ type otelPlugin struct {
 	attrs            []attribute.KeyValue
 	excludeQueryVars bool
 	excludeMetrics   bool
+	withoutExplain   bool
 	queryFormatter   func(query string) string
 }
 
@@ -125,7 +126,12 @@ func (p *otelPlugin) after() gormHookFunc {
 			}
 		}
 
-		query := tx.Dialector.Explain(tx.Statement.SQL.String(), vars...)
+		var query string
+		if p.withoutExplain {
+			query = tx.Statement.SQL.String()
+		} else {
+			query = tx.Dialector.Explain(tx.Statement.SQL.String(), vars...)
+		}
 
 		attrs = append(attrs, semconv.DBStatementKey.String(p.formatQuery(query)))
 		if tx.Statement.Table != "" {

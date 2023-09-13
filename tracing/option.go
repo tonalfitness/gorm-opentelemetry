@@ -36,6 +36,13 @@ func WithoutQueryVariables() Option {
 	}
 }
 
+// WithoutSQLExplain configures the db.statement attribute to avoid interpolating the query variables at all
+func WithoutSQLExplain() Option {
+	return func(p *otelPlugin) {
+		p.withoutExplain = true
+	}
+}
+
 // WithQueryFormatter configures a query formatter
 func WithQueryFormatter(queryFormatter func(query string) string) Option {
 	return func(p *otelPlugin) {
